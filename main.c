@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:38 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/11 03:11:38 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/11 06:42:17 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	exex_cmd(t_args args, int ind)
 	char	*full_path;
 	int		i;
 
-	argv = ft_split(args.av[ind], ' ');
+	argv = ft_split(args.av[2 + ind], ' ');
 	if (!argv)
 		return (1);
 	path = search_path(args.envp);
@@ -81,7 +81,7 @@ int	exex_cmd(t_args args, int ind)
 	i = 0;
 	while (path[i])
 	{
-		full_path = join_cmd(path[i], argv[ind]);
+		full_path = join_cmd(path[i], argv[0]);
 		if (!full_path)
 			return (1);
 		execve(full_path, argv, args.envp);
@@ -97,13 +97,15 @@ int	fork_process(t_args args)
 	int		i;
 	int		prev_read;
 	pid_t	last_pid;
+	int		m;
 
 	i = 0;
 	prev_read = -1;
 	last_pid = -1;
-	while (i < args.ac - 2)
+	m = args.ac - 3;
+	while (i < m)
 	{
-		if (i < args.ac - 3)
+		if (i < m - 1)
 			pipe(p);
 		pid = fork();
 		if (pid < 0)
@@ -114,19 +116,19 @@ int	fork_process(t_args args)
 			{
 				if (dup2(args.in_fd, STDIN_FILENO) == -1)
 					_exit(1);
-				close(args.in_fd);
-				exex_cmd(args, i);
-					_exit(126);
+				// close(args.in_fd);
+				// exex_cmd(args, i);
+				// 	_exit(126);
 			}
 			else
 			{
 				if (dup2(prev_read, STDIN_FILENO) == -1)
 					_exit(1);
-				close(args.in_fd);
-				exex_cmd(args, i);
-					_exit(126);
+				// close(args.in_fd);
+				// exex_cmd(args, i);
+					// _exit(126);
 			}
-			if (i < args.ac - 2)
+			if (i < m - 1)
 			{
 				if (dup2(p[1], STDOUT_FILENO) == -1)
 					_exit(1);
@@ -138,7 +140,7 @@ int	fork_process(t_args args)
 			}
 			if (prev_read != -1)
 				close(prev_read);
-			if (i < args.ac - 2)
+			if (i < m - 1)
 			{
 				close(p[0]);
 				close(p[1]);
@@ -151,12 +153,12 @@ int	fork_process(t_args args)
 		}
 		if (prev_read != -1)
 			close(prev_read);
-		if (i < args.ac - 2)
+		if (i < m - 1)
 		{
 			close(p[1]);
 			prev_read = p[0];
 		}
-		if (i == args.ac - 2)
+		if (i == m - 1)
 			last_pid = pid;
 		i++;
 	}
@@ -166,7 +168,7 @@ int	fork_process(t_args args)
 		close(prev_read);
 	
 	int st, exitcode = 1;
-    for (int k = 0; k < args.ac - 2; k++) {
+    for (int k = 0; k < m; ++k) {
         pid_t w = wait(&st);
         if (w == -1) { perror("wait"); break; }
         if (w == last_pid) {
