@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/09 19:35:59 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/10 19:10:34 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 #include "libft/includes/ft_printf.h"
 #include "libft/includes/get_next_line.h"
 #include "libft/includes/libft.h"
-
-
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 
 
