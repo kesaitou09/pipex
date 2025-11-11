@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:38 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/11 06:42:17 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/12 03:17:26 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*join_cmd(char *path, char *cmd)
 	return (joined);
 }
 
-int	exex_cmd(t_args args, int ind)
+int	exec_cmd(t_args args, int ind)
 {
 	char	**path;
 	char	**argv;
@@ -90,96 +90,121 @@ int	exex_cmd(t_args args, int ind)
 	return (1);
 }
 
-int	fork_process(t_args args)
+void	child_pipeline(t_args args, t_proc proc, int i)
 {
-	pid_t	pid;
-	int		p[2];
+	if (i == 0)
+	{
+		if (dup2(args.in_fd, STDIN_FILENO) == -1)
+			_exit(1);
+	}
+	else
+	{
+		if (dup2(proc.prev_read, STDIN_FILENO) == -1)
+			_exit(1);
+	}
+	if (i < proc.cmds - 1)
+	{
+		if (dup2(proc.p[1], STDOUT_FILENO) == -1)
+			_exit(1);
+	}
+	else
+	{
+		if (dup2(args.ou_fd, STDOUT_FILENO) == -1)
+			_exit(1);
+	}
+}
+
+void	init_proc(t_proc *proc, t_args args)
+{
+	proc->cmds = args.ac - 3;
+	proc->last_pid = -1;
+	proc->prev_read = -1;
+	proc->pid = -1;
+}
+
+int	wait_process(t_proc proc)
+{
 	int		i;
-	int		prev_read;
-	pid_t	last_pid;
-	int		m;
+	int		stat;
+	int		exit_code;
+	pid_t	wpid;
 
 	i = 0;
-	prev_read = -1;
-	last_pid = -1;
-	m = args.ac - 3;
-	while (i < m)
+	exit_code = 1;
+	while (i < proc.cmds)
 	{
-		if (i < m - 1)
-			pipe(p);
-		pid = fork();
-		if (pid < 0)
+		wpid = wait(&stat);
+		if (wpid == -1)
+		{
+			perror("wait");
+			break ;
+		}
+		if (wpid == proc.last_pid)
+		{
+			if (WIFEXITED(stat))
+				exit_code = WEXITSTATUS(stat);
+			else if (WIFSIGNALED(stat))
+				exit_code = 128 + WTERMSIG(stat);
+		}
+		i++;
+	}
+	return (exit_code);
+}
+
+void	parent_process(t_proc *proc, int i)
+{
+	if (proc->prev_read != -1)
+		close(proc->prev_read);
+	if (i < proc->cmds - 1)
+	{
+		close(proc->p[1]);
+		proc->prev_read = proc->p[0];
+	}
+	if (i == proc->cmds - 1)
+		proc->last_pid = proc->pid;
+}
+
+void	child_process(t_proc proc, t_args args, int i)
+{
+	child_pipeline(args, proc, i);
+	if (proc.prev_read != -1)
+		close(proc.prev_read);
+	if (i < proc.cmds - 1)
+	{
+		close(proc.p[0]);
+		close(proc.p[1]);
+	}
+	close(args.in_fd);
+	close(args.ou_fd);
+	exec_cmd(args, i);
+	_exit(126);
+}
+
+int	fork_process(t_args args)
+{
+	t_proc	proc;
+	int		i;
+
+	init_proc(&proc, args);
+	i = 0;
+	while (i < proc.cmds)
+	{
+		if (i < proc.cmds - 1)
+			pipe(proc.p);
+		proc.pid = fork();
+		if (proc.pid < 0)
 			return (1);
-		else if (pid == 0)
-		{
-			if (i == 0)
-			{
-				if (dup2(args.in_fd, STDIN_FILENO) == -1)
-					_exit(1);
-				// close(args.in_fd);
-				// exex_cmd(args, i);
-				// 	_exit(126);
-			}
-			else
-			{
-				if (dup2(prev_read, STDIN_FILENO) == -1)
-					_exit(1);
-				// close(args.in_fd);
-				// exex_cmd(args, i);
-					// _exit(126);
-			}
-			if (i < m - 1)
-			{
-				if (dup2(p[1], STDOUT_FILENO) == -1)
-					_exit(1);
-			}
-			else
-			{
-				if (dup2(args.ou_fd, STDOUT_FILENO) == -1)
-					_exit(1);
-			}
-			if (prev_read != -1)
-				close(prev_read);
-			if (i < m - 1)
-			{
-				close(p[0]);
-				close(p[1]);
-			}
-			close(args.in_fd);
-			close(args.ou_fd);
-			exex_cmd(args, i);
-			_exit(126);
-						
-		}
-		if (prev_read != -1)
-			close(prev_read);
-		if (i < m - 1)
-		{
-			close(p[1]);
-			prev_read = p[0];
-		}
-		if (i == m - 1)
-			last_pid = pid;
+		else if (proc.pid == 0)
+			child_process(proc, args, i);
+		parent_process(&proc, i);
 		i++;
 	}
 	close(args.in_fd);
 	close(args.ou_fd);
-	if (prev_read != -1)
-		close(prev_read);
-	
-	int st, exitcode = 1;
-    for (int k = 0; k < m; ++k) {
-        pid_t w = wait(&st);
-        if (w == -1) { perror("wait"); break; }
-        if (w == last_pid) {
-            if (WIFEXITED(st))      exitcode = WEXITSTATUS(st);
-            else if (WIFSIGNALED(st)) exitcode = 128 + WTERMSIG(st);
-        }
-    }
-    return exitcode;
+	if (proc.prev_read != -1)
+		close(proc.prev_read);
+	return (wait_process(proc));
 }
-
-
 
 int	branch_process(t_args args)
 {
