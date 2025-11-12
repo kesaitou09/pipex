@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/11 01:22:21 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/12 07:19:59 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,26 @@ typedef struct s_args
 	int		ou_fd;
 
 }			t_args;
+
+typedef struct s_proc
+{
+	pid_t	pid;
+	pid_t	last_pid;
+	int		p[2];
+	int		prev_read;
+	int		cmds;
+	
+}t_proc;
+
+typedef enum e_flag
+{
+	ST_BASE = 1 << 0,
+	ST_SQ = 1 << 1,
+	ST_DQ = 1 << 2,
+	ST_ESC = 1 << 3,
+	ST_HEREDQ = 1 << 4,
+}					t_flag;
+
+
 
 #endif

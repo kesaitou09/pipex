@@ -6,7 +6,7 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 14:43:16 by kesaitou          #+#    #+#              #
-#    Updated: 2025/11/10 19:13:03 by kesaitou         ###   ########.fr        #
+#    Updated: 2025/11/12 06:16:31 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ LDFLAGS = -L $(LIBDIR)
 LDLIBS = -lft
 
 
-MAND_SRCS = main.c
+MAND_SRCS = main.c\
+			lexer.c
 
 			
 
