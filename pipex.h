@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/13 15:16:23 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:32:24 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct s_proc
 	
 }t_proc;
 
+void	exec_cmd(t_args args, char **argv, char **path);
+void	manage_exec(t_args args, int ind);
 
 
 #endif
