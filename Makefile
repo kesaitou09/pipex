@@ -6,7 +6,7 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 14:43:16 by kesaitou          #+#    #+#              #
-#    Updated: 2025/11/12 06:16:31 by kesaitou         ###   ########.fr        #
+#    Updated: 2025/11/13 11:43:59 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ LDLIBS = -lft
 
 
 MAND_SRCS = main.c\
-			lexer.c
+			
 
 			
 

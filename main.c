@@ -6,12 +6,34 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:38 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/12 03:17:26 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:57:39 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
+
+void	free_all(char **s1, char **s2)
+{
+	int	i;
+
+	i = 0;
+	if (!s1 || !s2)
+		return ;
+	while (s1[i])
+	{
+		free(s1[i]);
+		i++;
+	}
+	free(s1);
+	i = 0;
+	while (s2[i])
+	{
+		free(s2[i]);
+		i++;
+	}
+	free(s2);
+}
 
 void	free_split(char **s)
 {
@@ -65,29 +87,58 @@ char	*join_cmd(char *path, char *cmd)
 	return (joined);
 }
 
-int	exec_cmd(t_args args, int ind)
+void	exec_cmd(t_args args, char **argv, char **path)
 {
-	char	**path;
-	char	**argv;
 	char	*full_path;
 	int		i;
+	int		f;
 
-	argv = ft_split(args.av[2 + ind], ' ');
-	if (!argv)
-		return (1);
-	path = search_path(args.envp);
-	if (!path)
-		return (1);
+	f = 0;
 	i = 0;
 	while (path[i])
 	{
 		full_path = join_cmd(path[i], argv[0]);
 		if (!full_path)
-			return (1);
+			continue ;
 		execve(full_path, argv, args.envp);
+		if (errno == EACCES || errno == EPERM || errno == EISDIR)
+			f = 1;
+		free(full_path);
 		i++;
 	}
-	return (1);
+	free_split(path);
+	free_split(argv);
+	if (f)
+		_exit(126);
+	_exit(127);
+}
+
+void	manage_exec(t_args args, int ind)
+{
+	char	**argv;
+	char	**path;
+
+	argv = ft_split(args.av[2 + ind], ' ');
+	if (!argv)
+		_exit(127);
+	if (ft_strchr(args.av[2 + ind], '/'))
+	{
+		execve(argv[0], argv, args.envp);
+		free_split(argv);
+		if (errno == EACCES || errno == EPERM || errno == EISDIR)
+			_exit(126);
+		_exit(127);
+	}
+	else
+	{
+		path = search_path(args.envp);
+		if (!path)
+		{
+			free_split(argv);
+			_exit(127);
+		}
+		exec_cmd(args, argv, path);
+	}
 }
 
 void	child_pipeline(t_args args, t_proc proc, int i)
@@ -176,8 +227,7 @@ void	child_process(t_proc proc, t_args args, int i)
 	}
 	close(args.in_fd);
 	close(args.ou_fd);
-	exec_cmd(args, i);
-	_exit(126);
+	manage_exec(args, i);
 }
 
 int	fork_process(t_args args)
@@ -209,13 +259,9 @@ int	fork_process(t_args args)
 int	branch_process(t_args args)
 {
 	if (!ft_strcmp(args.av[1], "here_doc"))
-		return (0);
+		return (SUCCESS);
 	else
-	{
-		if (fork_process(args) == ERROR)
-			return (ERROR);
-	}
-	return (0);
+		return (fork_process(args));
 }
 
 int	init_args(t_args *args, int ac, char **av, char **envp)
@@ -237,9 +283,8 @@ int	main(int ac, char **av, char **envp)
 	t_args	args;
 
 	if (init_args(&args, ac, av, envp) == ERROR)
-		return (ERROR);
-	if (branch_process(args) == 1)
 		return (1);
+	return (branch_process(args));
 }
 
 /* ./pipex file1 cmd1 cmd2 file2
@@ -264,7 +309,22 @@ forkはコマンドを別プロセスで実行するために必要
 pipeは入出力を制御するために必要
 pipeは最後以外のコマンドを実行するタイミングで必要
 
+コマンドが見つからない → 127。
+見つかるが実行不可（権限なし・ディレクトリ等）→ 126。
 
+シグナルで終了 → 128 + シグナル番号（例：SIGINT=2なら130）。
+
+リダイレクト失敗（例：> outfile を開けない）→ コマンドは実行されず、終了ステータスは非0（一般に1）。
+
+
+0	正常終了
+1	一般的なエラー
+2	ビルトインコマンドの誤用
+126	コマンドを実行できなかった（実行権限がない）
+127	コマンドが見つからなかった
+128	exit コマンドに不正な引数を渡した
+128+n	シグナル n で致命的なエラー（例: 130はCtrl+Cでの終了）
+255	範囲外の終了ステータス
 
 ac = 7
 i = 2

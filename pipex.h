@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/12 07:19:59 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/13 15:16:23 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+#include <errno.h>
+#include <sys/stat.h>
 
 typedef struct s_args
 {
@@ -39,15 +41,6 @@ typedef struct s_proc
 	int		cmds;
 	
 }t_proc;
-
-typedef enum e_flag
-{
-	ST_BASE = 1 << 0,
-	ST_SQ = 1 << 1,
-	ST_DQ = 1 << 2,
-	ST_ESC = 1 << 3,
-	ST_HEREDQ = 1 << 4,
-}					t_flag;
 
 
 
