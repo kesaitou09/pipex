@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 18:31:37 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 02:27:31 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/16 05:01:32 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,34 @@ void	exec_cmd(t_args args, char **argv, char **path)
 	if (f)
 		_exit(126);
 	_exit(127);
+}
+
+void	heredoc_manage_exec(t_args args, int ind)
+{
+	char	**argv;
+	char	**path;
+
+	argv = ft_split(args.av[3 + ind], ' ');
+	if (!argv)
+		_exit(127);
+	if (ft_strchr(args.av[3 + ind], '/'))
+	{
+		execve(argv[0], argv, args.envp);
+		free_split(argv);
+		if (errno == EACCES || errno == EPERM || errno == EISDIR)
+			_exit(126);
+		_exit(127);
+	}
+	else
+	{
+		path = search_path(args.envp);
+		if (!path)
+		{
+			free_split(argv);
+			_exit(127);
+		}
+		exec_cmd(args, argv, path);
+	}
 }
 
 void	manage_exec(t_args args, int ind)

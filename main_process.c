@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 18:31:51 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 03:53:30 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/16 05:02:12 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	child_process(t_proc proc, t_args args, int i)
 		close(proc.p[1]);
 	}
 	close(args.ou_fd);
-	manage_exec(args, i);
+	heredoc_manage_exec(args, i);
 }
 
 int	fork_process(t_args args)

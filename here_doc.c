@@ -6,11 +6,33 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 02:22:13 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 03:37:30 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/16 04:55:07 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static int	is_limiter_line(char *line, char *limiter)
+{
+	size_t	len_line;
+	size_t	len_lim;
+
+	if (!line || !limiter)
+		return (0);
+	len_line = ft_strlen(line);
+	len_lim = ft_strlen(limiter);
+
+	if (len_line == len_lim + 1
+		&& line[len_lim] == '\n'
+		&& !ft_strncmp(line, limiter, len_lim))
+		return (1);
+
+	if (len_line == len_lim
+		&& !ft_strncmp(line, limiter, len_lim))
+		return (1);
+
+	return (0);
+}
 
 void	child_here_doc(t_args args, int *p)
 {
@@ -22,7 +44,7 @@ void	child_here_doc(t_args args, int *p)
 		tmp = get_next_line(0);
 		if (!tmp)
 			break ;
-		if (check_key(tmp, args))
+		if (is_limiter_line(tmp, args.av[2]))
 		{
 			free(tmp);
 			break ;
@@ -34,17 +56,30 @@ void	child_here_doc(t_args args, int *p)
 	_exit(0);
 }
 
-int	check_key(char *s, t_args args)
-{
-	size_t	len;
 
-	len = ft_strlen(s);
-	if (s)
-		s[len - 1] = '\0';
-	if (!ft_strcmp(s, args.av[2]))
-		return (1);
-	return (0);
-}
+
+// int	check_key(char *s, t_args args)
+// {
+// 	size_t	len1;
+// 	size_t	len2;
+
+// 	len1 = ft_strlen(s);
+// 	len2 = ft_strlen(args.av[2]);
+// 	if (len1 > len2)
+// 	{
+// 		ft_memcmp(s, args.av[2], len1);
+// 	}
+	
+	
+	
+	
+	
+// 	if (s)
+// 		s[len - 1] = '\0';
+// 	if (!ft_strcmp(s, args.av[2]))
+// 		return (1);
+// 	return (0);
+// }
 
 int	parent_here_doc(t_args *args, int *p, int pid)
 {

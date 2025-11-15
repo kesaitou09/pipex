@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:38 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 03:50:57 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/16 04:53:56 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@
 
 void	init_proc(t_proc *proc, t_args args)
 {
-	proc->cmds = args.ac - 3;
+	if (!ft_strcmp(args.av[1] , "here_doc"))
+		proc ->cmds = args.ac - 4;
+	else
+		proc->cmds = args.ac - 3;
 	proc->last_pid = -1;
 	proc->prev_read = -1;
 	proc->pid = -1;
@@ -173,10 +176,8 @@ int	branch_process(t_args args)
 	{
 		if (here_doc(&args) == ERROR)
 		{
-			ft_printf("dd");
 			return (1);
 		}
-		ft_printf("dd");
 		return (heredoc_fork_process(args));
 	}
 	else
