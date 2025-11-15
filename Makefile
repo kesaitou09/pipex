@@ -6,13 +6,14 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 14:43:16 by kesaitou          #+#    #+#              #
-#    Updated: 2025/11/16 03:15:21 by kesaitou         ###   ########.fr        #
+#    Updated: 2025/11/16 07:56:14 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
+
 
 
 LIBFTDIR = libft
@@ -25,15 +26,11 @@ LDLIBS = -lft
 
 MAND_SRCS = main.c\
 			main_process.c\
-			here_doc.c\
 			free_utils.c\
 			exec_cmd.c\
-			
-
-			
+			here_doc.c
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
-
 
 
 all : $(NAME)
@@ -44,7 +41,6 @@ $(LIBFT):
 
 $(NAME):$(MAND_OBJS) $(LIBFT)
 	$(CC) $(MAND_OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
-
 
 	
 %.o : %.c

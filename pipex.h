@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 05:03:02 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/16 07:57:48 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ void		free_split(char **s);
 int			fork_process(t_args args);
 void		init_proc(t_proc *proc, t_args args);
 
-void		heredoc_manage_exec(t_args args, int ind);
-int			heredoc_fork_process(t_args args);
-// int			check_key(char *s, t_args args);
-void		child_here_doc(t_args args, int *p);
 void		parent_process(t_proc *proc, int i);
 int			wait_process(t_proc proc);
 void		child_process(t_proc proc, t_args args, int i);
+
 int			here_doc(t_args *args);
+int			heredoc_fork_process(t_args args);
+int			parent_here_doc(t_args *args, int *p, int pid);
+void		child_here_doc(t_args args, int *p);
+void		heredoc_manage_exec(t_args args, int ind);
 
 #endif
