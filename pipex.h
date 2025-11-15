@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/13 18:32:24 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/16 03:26:33 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,19 @@
 # include "libft/includes/ft_printf.h"
 # include "libft/includes/get_next_line.h"
 # include "libft/includes/libft.h"
+# include <errno.h>
 # include <fcntl.h>
+# include <signal.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-#include <errno.h>
-#include <sys/stat.h>
 
 typedef struct s_args
 {
 	int		ac;
 	char	**av;
 	char	**envp;
+	char	*here_input;
 	int		in_fd;
 	int		ou_fd;
 
@@ -39,11 +41,26 @@ typedef struct s_proc
 	int		p[2];
 	int		prev_read;
 	int		cmds;
-	
-}t_proc;
 
-void	exec_cmd(t_args args, char **argv, char **path);
-void	manage_exec(t_args args, int ind);
+}			t_proc;
 
+void		exec_cmd(t_args args, char **argv, char **path);
+void		manage_exec(t_args args, int ind);
+char		**search_path(char **envp);
+char		*join_cmd(char *path, char *cmd);
+
+void		free_two(void *ptr1, void *ptr2);
+void		free_split(char **s);
+
+int			fork_process(t_args args);
+void		init_proc(t_proc *proc, t_args args);
+
+int			heredoc_fork_process(t_args args);
+int			check_key(char *s, t_args args);
+void		child_here_doc(t_args args, int *p);
+void		parent_process(t_proc *proc, int i);
+int			wait_process(t_proc proc);
+void		child_process(t_proc proc, t_args args, int i);
+int			here_doc(t_args *args);
 
 #endif
