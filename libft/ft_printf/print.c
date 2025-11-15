@@ -6,13 +6,12 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 02:37:55 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/10/29 17:00:57 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/16 05:53:46 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 #include "../includes/libft.h"
-
 
 int	print_hub(va_list *args, t_info *inf)
 {

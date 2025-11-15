@@ -6,14 +6,12 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 02:38:38 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/10 05:08:47 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/16 05:53:32 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 #include "../includes/libft.h"
-
-
 
 int	ft_putchar(char c, t_info *inf)
 {

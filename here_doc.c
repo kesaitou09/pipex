@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 02:22:13 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 05:32:01 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/16 05:42:42 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,12 @@ static int	check_key(char *line, char *av)
 
 	len1 = ft_strlen(line);
 	len2 = ft_strlen(av);
-	if (len1 == len2 + 1 && line[len2] == '\n' && !ft_strncmp(line,
-			av, len2))
+	if (len1 == len2 + 1 && line[len2] == '\n' && !ft_strncmp(line, av, len2))
 		return (1);
 	if (len1 == len2 && !ft_strncmp(line, av, len2))
 		return (1);
 	return (0);
 }
-
-
 
 void	child_here_doc(t_args args, int *p)
 {
@@ -50,8 +47,6 @@ void	child_here_doc(t_args args, int *p)
 	close(p[1]);
 	_exit(0);
 }
-
-
 
 int	parent_here_doc(t_args *args, int *p, int pid)
 {

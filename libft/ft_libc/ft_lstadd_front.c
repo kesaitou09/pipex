@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front_bonus.c                            :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:56:56 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/10/29 17:11:06 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/16 05:52:58 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
-
 
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {
