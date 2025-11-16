@@ -6,11 +6,11 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:57:19 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/10/16 02:10:20 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 04:11:36 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {

@@ -6,11 +6,11 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:57:34 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/10/16 02:10:47 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 04:11:36 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 void	ft_putnbr_fd(int n, int fd)
 {

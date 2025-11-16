@@ -6,11 +6,11 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:58:14 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/10/17 08:28:56 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 04:11:36 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {

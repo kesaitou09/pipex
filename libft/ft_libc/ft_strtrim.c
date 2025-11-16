@@ -6,11 +6,11 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:58:28 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/10/17 13:48:24 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 04:11:36 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 static size_t	ft_strnlen(const char *s, size_t n);
 static int		is_set(char const *set, char c);

@@ -6,11 +6,11 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:57:50 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/10/17 09:00:08 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 04:11:36 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

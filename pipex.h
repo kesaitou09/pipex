@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 07:57:48 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/16 21:00:37 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <string.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -58,6 +59,9 @@ void		init_proc(t_proc *proc, t_args args);
 void		parent_process(t_proc *proc, int i);
 int			wait_process(t_proc proc);
 void		child_process(t_proc proc, t_args args, int i);
+void		exit_cmd_err(char *cmd, int status);
+void		exit_errno_error(char *target, int status);
+void		print_errno_err(char *target);
 
 int			here_doc(t_args *args);
 int			heredoc_fork_process(t_args args);

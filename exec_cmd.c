@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 18:31:37 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 05:01:32 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 05:11:35 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ void	exec_cmd(t_args args, char **argv, char **path)
 	{
 		full_path = join_cmd(path[i], argv[0]);
 		if (!full_path)
+		{
+			i++;
 			continue ;
+		}
 		execve(full_path, argv, args.envp);
 		if (errno == EACCES || errno == EPERM || errno == EISDIR)
 			f = 1;
@@ -71,8 +74,8 @@ void	exec_cmd(t_args args, char **argv, char **path)
 	free_split(path);
 	free_split(argv);
 	if (f)
-		_exit(126);
-	_exit(127);
+		exit_cmd_err(argv[0], 126);
+	exit_cmd_err(argv[0], 127);
 }
 
 void	heredoc_manage_exec(t_args args, int ind)
@@ -88,8 +91,8 @@ void	heredoc_manage_exec(t_args args, int ind)
 		execve(argv[0], argv, args.envp);
 		free_split(argv);
 		if (errno == EACCES || errno == EPERM || errno == EISDIR)
-			_exit(126);
-		_exit(127);
+			exit_cmd_err(argv[0], 126);
+		exit_cmd_err(argv[0], 127);
 	}
 	else
 	{
@@ -116,8 +119,8 @@ void	manage_exec(t_args args, int ind)
 		execve(argv[0], argv, args.envp);
 		free_split(argv);
 		if (errno == EACCES || errno == EPERM || errno == EISDIR)
-			_exit(126);
-		_exit(127);
+			exit_cmd_err(argv[0], 126);
+		exit_cmd_err(argv[0], 127);
 	}
 	else
 	{
@@ -125,7 +128,7 @@ void	manage_exec(t_args args, int ind)
 		if (!path)
 		{
 			free_split(argv);
-			_exit(127);
+			exit_cmd_err(argv[0], 127);
 		}
 		exec_cmd(args, argv, path);
 	}

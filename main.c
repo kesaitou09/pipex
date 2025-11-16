@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:38 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 05:50:13 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/16 21:37:12 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,18 @@ int	init_args(t_args *args, int ac, char **av, char **envp)
 	{
 		args->in_fd = -1;
 		args->ou_fd = open(av[ac - 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+		if (args->ou_fd == -1)
+			return (print_errno_err(av[ac - 1]), ERROR);
 	}
 	else
 	{
 		args->in_fd = open(av[1], O_RDONLY);
 		if (args->in_fd == -1)
-			return (ERROR);
+			return (print_errno_err(av[1]), ERROR);
 		args->ou_fd = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (args->ou_fd == -1)
+			return (print_errno_err(av[ac - 1]), ERROR);
 	}
-	if (args->ou_fd == -1)
-		return (ERROR);
 	return (SUCCESS);
 }
 
