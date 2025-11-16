@@ -6,35 +6,35 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 18:31:51 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 05:14:46 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 05:49:12 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	child_pipeline(t_args args, t_proc proc, int i)
-{
-	if (i == 0)
-	{
-		if (dup2(args.in_fd, STDIN_FILENO) == -1)
-			_exit(1);
-	}
-	else
-	{
-		if (dup2(proc.prev_read, STDIN_FILENO) == -1)
-			_exit(1);
-	}
-	if (i < proc.cmds - 1)
-	{
-		if (dup2(proc.p[1], STDOUT_FILENO) == -1)
-			_exit(1);
-	}
-	else
-	{
-		if (dup2(args.ou_fd, STDOUT_FILENO) == -1)
-			_exit(1);
-	}
-}
+// void	child_pipeline(t_args args, t_proc proc, int i)
+// {
+// 	if (i == 0)
+// 	{
+// 		if (dup2(args.in_fd, STDIN_FILENO) == -1)
+// 			_exit(1);
+// 	}
+// 	else
+// 	{
+// 		if (dup2(proc.prev_read, STDIN_FILENO) == -1)
+// 			_exit(1);
+// 	}
+// 	if (i < proc.cmds - 1)
+// 	{
+// 		if (dup2(proc.p[1], STDOUT_FILENO) == -1)
+// 			_exit(1);
+// 	}
+// 	else
+// 	{
+// 		if (dup2(args.ou_fd, STDOUT_FILENO) == -1)
+// 			_exit(1);
+// 	}
+// }
 
 int	wait_process(t_proc proc)
 {
@@ -78,19 +78,19 @@ void	parent_process(t_proc *proc, int i)
 		proc->last_pid = proc->pid;
 }
 
-void	child_process(t_proc proc, t_args args, int i)
-{
-	child_pipeline(args, proc, i);
-	if (proc.prev_read != -1)
-		close(proc.prev_read);
-	if (i < proc.cmds - 1)
-	{
-		close(proc.p[0]);
-		close(proc.p[1]);
-	}
-	close(args.ou_fd);
-	manage_exec(args, i);
-}
+// void	child_process(t_proc proc, t_args args, int i)
+// {
+// 	child_pipeline(args, proc, i);
+// 	if (proc.prev_read != -1)
+// 		close(proc.prev_read);
+// 	if (i < proc.cmds - 1)
+// 	{
+// 		close(proc.p[0]);
+// 		close(proc.p[1]);
+// 	}
+// 	close(args.ou_fd);
+// 	manage_exec(args, i);
+// }
 
 int	fork_process(t_args args)
 {

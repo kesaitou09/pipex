@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 02:22:13 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 07:57:03 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 05:50:07 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,20 @@ int	parent_here_doc(t_args *args, int *p, int pid)
 	return (SUCCESS);
 }
 
+// void	heredoc_child_process(t_proc proc, t_args args, int i)
+// {
+// 	child_pipeline(args, proc, i);
+// 	if (proc.prev_read != -1)
+// 		close(proc.prev_read);
+// 	if (i < proc.cmds - 1)
+// 	{
+// 		close(proc.p[0]);
+// 		close(proc.p[1]);
+// 	}
+// 	close(args.ou_fd);
+// 	heredoc_manage_exec(args, i);
+// }
+
 int	heredoc_fork_process(t_args args)
 {
 	t_proc	proc;
@@ -78,7 +92,7 @@ int	heredoc_fork_process(t_args args)
 		if (proc.pid < 0)
 			return (1);
 		else if (proc.pid == 0)
-			child_process(proc, args, i);
+			heredoc_child_process(proc, args, i);
 		parent_process(&proc, i);
 		i++;
 	}
