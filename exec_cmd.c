@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 18:31:37 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 05:11:35 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 10:54:43 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,37 @@ char	*join_cmd(char *path, char *cmd)
 	return (joined);
 }
 
+void	check_cmd(char **argv, char **path)
+{
+	if (!argv || !argv[0] || !argv[0][0])
+	{
+		ft_putstr_fd("pipex: command not found\n", STDERR_FILENO);
+		free_split(argv);
+		free_split(path);
+		_exit(127);
+	}
+}
+void	exec_exit_proc(char **argv, char **path, int f)
+{
+	if (f)
+	{
+		ft_putstr_fd("pipex: ", STDERR_FILENO);
+		ft_putstr_fd(argv[0], STDERR_FILENO);
+		ft_putendl_fd(": Permission denied", STDERR_FILENO);
+	}
+	else 
+	{
+		ft_putstr_fd("pipex: ", STDERR_FILENO);
+		ft_putstr_fd(argv[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	}
+	free_split(path);
+	free_split(argv);
+	if (f)
+		_exit(126);
+	_exit(127);
+}
+
 void	exec_cmd(t_args args, char **argv, char **path)
 {
 	char	*full_path;
@@ -57,6 +88,7 @@ void	exec_cmd(t_args args, char **argv, char **path)
 
 	f = 0;
 	i = 0;
+	check_cmd(argv, path);
 	while (path[i])
 	{
 		full_path = join_cmd(path[i], argv[0]);
@@ -71,11 +103,7 @@ void	exec_cmd(t_args args, char **argv, char **path)
 		free(full_path);
 		i++;
 	}
-	free_split(path);
-	free_split(argv);
-	if (f)
-		exit_cmd_err(argv[0], 126);
-	exit_cmd_err(argv[0], 127);
+	exec_exit_proc(argv, path, f);
 }
 
 void	heredoc_manage_exec(t_args args, int ind)
