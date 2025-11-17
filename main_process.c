@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 18:31:51 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 05:49:12 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 09:34:17 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,10 @@ int	fork_process(t_args args)
 		parent_process(&proc, i);
 		i++;
 	}
-	close(args.in_fd);
-	close(args.ou_fd);
+	if (args.in_fd != -1)
+		close(args.in_fd);
+	if (args.in_fd != -1)
+		close(args.ou_fd);
 	if (proc.prev_read != -1)
 		close(proc.prev_read);
 	return (wait_process(proc));

@@ -6,18 +6,18 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 05:40:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 05:43:12 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 09:53:56 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "pipex.h"
 
-void	child_pipeline(t_args args, t_proc proc, int i)
+void	pipe_stdin(t_args args, t_proc proc, int i)
 {
 	if (i == 0)
 	{
-		if (dup2(args.in_fd, STDIN_FILENO) == -1)
+		if (args.in_fd != -1 && dup2(args.in_fd, STDIN_FILENO) == -1)
 			_exit(1);
 	}
 	else
@@ -25,6 +25,11 @@ void	child_pipeline(t_args args, t_proc proc, int i)
 		if (dup2(proc.prev_read, STDIN_FILENO) == -1)
 			_exit(1);
 	}
+}
+
+void	pipe_stdout(t_args args, t_proc proc, int i)
+{
+	
 	if (i < proc.cmds - 1)
 	{
 		if (dup2(proc.p[1], STDOUT_FILENO) == -1)
@@ -32,14 +37,21 @@ void	child_pipeline(t_args args, t_proc proc, int i)
 	}
 	else
 	{
-		if (dup2(args.ou_fd, STDOUT_FILENO) == -1)
+		if (args.ou_fd != -1)
+		{
+			if (dup2(args.ou_fd, STDOUT_FILENO) == -1)
+				_exit(1);
+		}
+		else
 			_exit(1);
+		
 	}
 }
 
 void	child_process(t_proc proc, t_args args, int i)
 {
-	child_pipeline(args, proc, i);
+	pipe_stdin(args, proc, i);
+	pipe_stdout(args, proc, i);
 	if (proc.prev_read != -1)
 		close(proc.prev_read);
 	if (i < proc.cmds - 1)
@@ -47,13 +59,17 @@ void	child_process(t_proc proc, t_args args, int i)
 		close(proc.p[0]);
 		close(proc.p[1]);
 	}
-	close(args.ou_fd);
+	if (args.in_fd != -1)
+		close(args.in_fd);
+	if (args.in_fd != -1)
+		close(args.ou_fd);
 	manage_exec(args, i);
 }
 
 void	heredoc_child_process(t_proc proc, t_args args, int i)
 {
-	child_pipeline(args, proc, i);
+	pipe_stdin(args, proc, i);
+	pipe_stdout(args, proc, i);
 	if (proc.prev_read != -1)
 		close(proc.prev_read);
 	if (i < proc.cmds - 1)
@@ -61,6 +77,9 @@ void	heredoc_child_process(t_proc proc, t_args args, int i)
 		close(proc.p[0]);
 		close(proc.p[1]);
 	}
-	close(args.ou_fd);
+	if (args.in_fd != -1)
+		close(args.in_fd);
+	if (args.in_fd != -1)
+		close(args.ou_fd);
 	heredoc_manage_exec(args, i);
 }
