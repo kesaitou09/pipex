@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:35:18 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 12:46:43 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:59:36 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@ char	*ft_strjoin_alpha(char *va_buf, char *tmp);
 char	*ft_strndup(char *s, size_t n);
 
 char	*get_next_line(int fd);
-
 
 #endif

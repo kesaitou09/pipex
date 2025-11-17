@@ -6,7 +6,7 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 14:43:16 by kesaitou          #+#    #+#              #
-#    Updated: 2025/11/17 05:42:23 by kesaitou         ###   ########.fr        #
+#    Updated: 2025/11/17 13:05:38 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,11 @@ LDLIBS = -lft
 MAND_SRCS = main.c\
 			main_process.c\
 			child_process.c\
-			free_utils.c\
 			exec_cmd.c\
-			here_doc.c\
+			exec_utils.c\
 			handle_error.c\
+			free_utils.c\
+			here_doc.c\
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
 

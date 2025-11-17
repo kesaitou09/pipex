@@ -6,14 +6,13 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 05:40:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 09:53:56 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 13:04:38 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "pipex.h"
 
-void	pipe_stdin(t_args args, t_proc proc, int i)
+static void	pipe_stdin(t_args args, t_proc proc, int i)
 {
 	if (i == 0)
 	{
@@ -27,9 +26,8 @@ void	pipe_stdin(t_args args, t_proc proc, int i)
 	}
 }
 
-void	pipe_stdout(t_args args, t_proc proc, int i)
+static void	pipe_stdout(t_args args, t_proc proc, int i)
 {
-	
 	if (i < proc.cmds - 1)
 	{
 		if (dup2(proc.p[1], STDOUT_FILENO) == -1)
@@ -44,7 +42,6 @@ void	pipe_stdout(t_args args, t_proc proc, int i)
 		}
 		else
 			_exit(1);
-		
 	}
 }
 

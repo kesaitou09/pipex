@@ -55,7 +55,7 @@ int	init_args(t_args *args, int ac, char **av, char **envp)
 		if (args->in_fd == -1)
 		{
 			print_errno_err(av[1]);
-			args ->in_fd = open("/dev/null", O_RDONLY);
+			args->in_fd = open("/dev/null", O_RDONLY);
 		}
 		args->ou_fd = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (args->ou_fd == -1)
@@ -69,7 +69,7 @@ int	main(int ac, char **av, char **envp)
 	t_args	args;
 
 	if (ac < 4)
-		return (0);	
+		return (0);
 	if (init_args(&args, ac, av, envp) == ERROR)
 		return (1);
 	return (branch_process(args));

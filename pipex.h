@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 05:49:37 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 13:04:47 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,11 @@ void		exit_cmd_err(char *cmd, int status);
 void		exit_errno_err(char *target, int status);
 void		print_errno_err(char *target);
 
-void		child_pipeline(t_args args, t_proc proc, int i);
+char		**search_path(char **envp);
+char		*join_cmd(char *path, char *cmd);
+void		check_cmd(char **argv, char **path);
+void		exec_exit_proc(char **argv, char **path, int f);
+
 void		child_process(t_proc proc, t_args args, int i);
 void		heredoc_child_process(t_proc proc, t_args args, int i);
 int			here_doc(t_args *args);

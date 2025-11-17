@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:35:22 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 12:44:37 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/17 13:00:23 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ char	*read_file(int fd, char *va_buf)
 	free(tmp);
 	return (va_buf);
 }
-
-
 
 void	dup_line(char ***va_buf, char **line, size_t len, size_t rest_len)
 {
