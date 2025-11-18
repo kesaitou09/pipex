@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc_bonus.c                                   :+:      :+:    :+:   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 02:22:13 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/18 09:33:22 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/18 10:56:14 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,28 +57,14 @@ int	parent_here_doc(t_args *args, int *p, int pid)
 
 	close(p[1]);
 	waitpid(pid, &stat, 0);
-	if (WIFSIGNALED(stat) && WTERMSIG(stat) == SIGINT)
-	{
-		close(p[0]);
-		return (ERROR);
-	}
+	// if (WIFSIGNALED(stat) && WTERMSIG(stat) == SIGINT)
+	// {
+	// 	close(p[0]);
+	// 	return (ERROR);
+	// }
 	args->in_fd = p[0];
 	return (SUCCESS);
 }
-
-// void	heredoc_child_process(t_proc proc, t_args args, int i)
-// {
-// 	child_pipeline(args, proc, i);
-// 	if (proc.prev_read != -1)
-// 		close(proc.prev_read);
-// 	if (i < proc.cmds - 1)
-// 	{
-// 		close(proc.p[0]);
-// 		close(proc.p[1]);
-// 	}
-// 	close(args.ou_fd);
-// 	heredoc_manage_exec(args, i);
-// }
 
 int	heredoc_fork_process(t_args args)
 {
