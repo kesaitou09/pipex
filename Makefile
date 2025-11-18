@@ -6,7 +6,7 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 14:43:16 by kesaitou          #+#    #+#              #
-#    Updated: 2025/11/18 09:11:47 by kesaitou         ###   ########.fr        #
+#    Updated: 2025/11/18 09:31:59 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,16 +34,8 @@ MAND_SRCS = main.c\
 			handle_error.c\
 			free_utils.c\
 			init_args.c\
-
-BONUS_SRCS = main.c\
-			main_process.c\
-			child_process.c\
-			exec_cmd.c\
-			exec_utils.c\
-			handle_error.c\
-			free_utils.c\
-			init_args.c\
 			here_doc_bonus.c\
+
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
 
@@ -57,7 +49,7 @@ $(LIBFT):
 $(NAME):$(MAND_OBJS) $(LIBFT)
 	$(CC) $(MAND_OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
-bonus:
+bonus: $(NAME)
 	
 %.o : %.c
 	$(CC) $(CFLAGS) $(INCS) -c $< -o $@

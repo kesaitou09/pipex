@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 09:05:07 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/18 09:05:48 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/18 09:33:29 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	init_normal(t_args *args, int ac, char **av)
 		args->ou_err = 1;
 	}
 }
-
 
 void	init_args(t_args *args, int ac, char **av, char **envp)
 {
