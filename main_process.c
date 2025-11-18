@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 18:31:51 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/18 11:22:24 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/18 12:31:02 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,30 +54,53 @@ void	parent_process(t_proc *proc, int i)
 		proc->last_pid = proc->pid;
 }
 
+int	do_fork_pipe(t_proc *proc, t_args args)
+{
+	int	i;
+
+	i = 0;
+	while (i < proc->cmds)
+	{
+		if (i < proc->cmds - 1)
+		{
+			if (pipe(proc->p) == -1)
+			{
+				perror("pipe");
+				return (ERROR);
+			}
+		}
+		proc->pid = fork();
+		if (proc->pid == -1)
+		{
+			perror("fork");
+			return (ERROR);
+		}
+		else if (proc->pid == 0)
+			child_process(*proc, args, i);
+		parent_process(proc, i);
+		i++;
+	}
+	return (SUCCESS);
+}
+
 int	fork_process(t_args args)
 {
 	t_proc	proc;
-	int		i;
+	int		ret;
 
 	init_proc(&proc, args);
-	i = 0;
-	while (i < proc.cmds)
-	{
-		if (i < proc.cmds - 1)
-			pipe(proc.p);
-		proc.pid = fork();
-		if (proc.pid < 0)
-			return (1);
-		else if (proc.pid == 0)
-			child_process(proc, args, i);
-		parent_process(&proc, i);
-		i++;
-	}
+	ret = do_fork_pipe(&proc, args);
 	if (args.in_fd != -1)
 		close(args.in_fd);
 	if (args.ou_fd != -1)
 		close(args.ou_fd);
 	if (proc.prev_read != -1)
 		close(proc.prev_read);
+	if (ret == ERROR)
+	{
+		while (wait(NULL) > 0)
+			;
+		return (1);
+	}
 	return (wait_process(proc));
 }
