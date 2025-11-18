@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 02:22:13 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/18 10:56:14 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/18 11:02:16 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,6 @@ int	parent_here_doc(t_args *args, int *p, int pid)
 
 	close(p[1]);
 	waitpid(pid, &stat, 0);
-	// if (WIFSIGNALED(stat) && WTERMSIG(stat) == SIGINT)
-	// {
-	// 	close(p[0]);
-	// 	return (ERROR);
-	// }
 	args->in_fd = p[0];
 	return (SUCCESS);
 }
