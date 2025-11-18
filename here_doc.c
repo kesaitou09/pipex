@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 02:22:13 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/18 11:02:16 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/18 18:59:24 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	child_here_doc(t_args args, int *p)
 		free(tmp);
 	}
 	close(p[1]);
-	_exit(0);
+	exit(0);
 }
 
 int	parent_here_doc(t_args *args, int *p, int pid)

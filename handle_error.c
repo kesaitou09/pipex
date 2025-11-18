@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 16:59:33 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/16 21:38:09 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/18 18:59:24 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_cmd_err(char *cmd, int status)
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": command not found", 2);
 	}
-	_exit(status);
+	exit(status);
 }
 
 void	print_errno_err(char *target)
@@ -46,11 +46,11 @@ void	print_errno_err(char *target)
 void	exit_cmd_err(char *cmd, int status)
 {
 	print_cmd_err(cmd, status);
-	_exit(status);
+	exit(status);
 }
 
 void	exit_errno_err(char *target, int status)
 {
 	print_errno_err(target);
-	_exit(status);
+	exit(status);
 }

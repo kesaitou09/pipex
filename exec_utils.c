@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:02:09 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 13:03:53 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/18 18:59:24 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	check_cmd(char **argv, char **path)
 		ft_putstr_fd("pipex: command not found\n", STDERR_FILENO);
 		free_split(argv);
 		free_split(path);
-		_exit(127);
+		exit(127);
 	}
 }
 
@@ -77,6 +77,6 @@ void	exec_exit_proc(char **argv, char **path, int f)
 	free_split(path);
 	free_split(argv);
 	if (f)
-		_exit(126);
-	_exit(127);
+		exit(126);
+	exit(127);
 }
