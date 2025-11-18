@@ -6,7 +6,7 @@
 #    By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 14:43:16 by kesaitou          #+#    #+#              #
-#    Updated: 2025/11/18 09:31:59 by kesaitou         ###   ########.fr        #
+#    Updated: 2025/11/18 09:36:38 by kesaitou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ MAND_SRCS = main.c\
 			handle_error.c\
 			free_utils.c\
 			init_args.c\
-			here_doc_bonus.c\
+			here_doc.c\
 
 
 MAND_OBJS = $(MAND_SRCS:.c=.o)
