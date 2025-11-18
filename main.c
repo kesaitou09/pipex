@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:38 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/18 10:54:26 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/18 11:45:14 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	main(int ac, char **av, char **envp)
 {
 	t_args	args;
 
-	if (ac < 4)
-		return (0);
+	if (ac < 5)
+		return (1);
 	init_args(&args, ac, av, envp);
 	return (branch_process(args));
 }
