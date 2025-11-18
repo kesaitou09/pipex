@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 05:40:00 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 13:04:38 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/18 08:55:40 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ static void	pipe_stdin(t_args args, t_proc proc, int i)
 {
 	if (i == 0)
 	{
+		if (args.in_err)
+		{
+			close(proc.p[1]);
+			_exit(1);
+		}
 		if (args.in_fd != -1 && dup2(args.in_fd, STDIN_FILENO) == -1)
 			_exit(1);
 	}
@@ -35,6 +40,11 @@ static void	pipe_stdout(t_args args, t_proc proc, int i)
 	}
 	else
 	{
+		if (args.ou_err)
+		{
+			close(proc.p[0]);
+			_exit(1);
+		}
 		if (args.ou_fd != -1)
 		{
 			if (dup2(args.ou_fd, STDOUT_FILENO) == -1)

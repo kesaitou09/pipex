@@ -6,7 +6,7 @@
 /*   By: kesaitou <kesaitou@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:23:53 by kesaitou          #+#    #+#             */
-/*   Updated: 2025/11/17 13:04:47 by kesaitou         ###   ########.fr       */
+/*   Updated: 2025/11/18 09:06:02 by kesaitou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct s_args
 	char	*here_input;
 	int		in_fd;
 	int		ou_fd;
+	int		in_err;
+	int		ou_err;
 
 }			t_args;
 
@@ -44,6 +46,10 @@ typedef struct s_proc
 	int		cmds;
 
 }			t_proc;
+
+void		init_heredoc(t_args *args, int ac, char **av);
+void		init_normal(t_args *args, int ac, char **av);
+void		init_args(t_args *args, int ac, char **av, char **envp);
 
 void		exec_cmd(t_args args, char **argv, char **path);
 void		manage_exec(t_args args, int ind);
